@@ -2,6 +2,7 @@
 #define RENDERER_H
 
 #include <stdbool.h>
+#include "../utils/objects/cube.h"
 
 // Renderer configuration structure
 typedef struct {
@@ -30,9 +31,6 @@ RendererWindowConfig renderer_window_config_default(void);
 
 // Initialize the renderer with window
 bool renderer_init_with_window(RendererConfig renderer_config, RendererWindowConfig window_config);
-
-// Create the cube geometry
-void renderer_create_cube(void);
 
 // Render a single frame
 void renderer_render_frame(void);
