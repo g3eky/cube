@@ -25,8 +25,8 @@ static void framebuffer_size_callback(GLFWwindow* window, int width, int height)
     glViewport(0, 0, width, height);
 }
 
-window_config_t window_config_default(void) {
-    window_config_t config;
+WindowConfig_t window_config_default(void) {
+    WindowConfig_t config;
     config.width = 800;
     config.height = 600;
     config.title = "Cube";
@@ -36,7 +36,7 @@ window_config_t window_config_default(void) {
     return config;
 }
 
-window_handle_t window_init(window_config_t config) {
+WindowHandle_t window_init(WindowConfig_t config) {
     // Initialize GLFW
     if (!glfwInit()) {
         fprintf(stderr, "Failed to initialize window system\n");
@@ -84,7 +84,7 @@ window_handle_t window_init(window_config_t config) {
     glViewport(0, 0, config.width, config.height);
     
     // Create and return our window handle
-    window_handle_t handle = (window_handle_t)malloc(sizeof(struct WindowHandle));
+    WindowHandle_t handle = (WindowHandle_t)malloc(sizeof(struct WindowHandle));
     if (!handle) {
         fprintf(stderr, "Failed to allocate window handle\n");
         glfwDestroyWindow(glfw_window);
@@ -96,14 +96,14 @@ window_handle_t window_init(window_config_t config) {
     return handle;
 }
 
-void window_setup_callbacks(window_handle_t window) {
+void window_setup_callbacks(WindowHandle_t window) {
     if (!window) return;
     
     // Set key callback
     glfwSetKeyCallback(window->glfw_window, key_callback);
 }
 
-void window_terminate(window_handle_t window) {
+void window_terminate(WindowHandle_t window) {
     if (!window) return;
     
     glfwDestroyWindow(window->glfw_window);
@@ -113,7 +113,7 @@ void window_terminate(window_handle_t window) {
     free(window);
 }
 
-bool window_should_close(window_handle_t window) {
+bool window_should_close(WindowHandle_t window) {
     if (!window) return true;
     
     return glfwWindowShouldClose(window->glfw_window);
@@ -123,7 +123,7 @@ void window_poll_events(void) {
     glfwPollEvents();
 }
 
-void window_swap_buffers(window_handle_t window) {
+void window_swap_buffers(WindowHandle_t window) {
     if (!window) return;
     
     glfwSwapBuffers(window->glfw_window);

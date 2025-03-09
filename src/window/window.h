@@ -5,7 +5,7 @@
 
 // Forward declaration of the window handle type
 // This hides the implementation detail that we're using GLFW
-typedef struct WindowHandle* window_handle_t;
+typedef struct WindowHandle* WindowHandle_t;
 
 // Window configuration structure
 typedef struct {
@@ -15,28 +15,28 @@ typedef struct {
     bool fullscreen;
     int gl_major_version;
     int gl_minor_version;
-} window_config_t;
+} WindowConfig_t;
 
 // Default window configuration
-window_config_t window_config_default(void);
+WindowConfig_t window_config_default(void);
 
 // Initialize and create a window
-window_handle_t window_init(window_config_t config);
+WindowHandle_t window_init(WindowConfig_t config);
 
 // Set up callbacks for the window
-void window_setup_callbacks(window_handle_t window);
+void window_setup_callbacks(WindowHandle_t window);
 
 // Clean up and terminate window system
-void window_terminate(window_handle_t window);
+void window_terminate(WindowHandle_t window);
 
 // Check if the window should close
-bool window_should_close(window_handle_t window);
+bool window_should_close(WindowHandle_t window);
 
 // Process window events
 void window_poll_events(void);
 
 // Swap the window buffers
-void window_swap_buffers(window_handle_t window);
+void window_swap_buffers(WindowHandle_t window);
 
 // Print OpenGL information
 void window_print_gl_info(void);

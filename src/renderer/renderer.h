@@ -10,7 +10,7 @@ typedef struct {
     float clear_color_b;
     float clear_color_a;
     float rotation_speed; // Rotation speed in radians per second
-} renderer_config_t;
+} RendererConfig_t;
 
 // Window configuration structure
 typedef struct {
@@ -20,16 +20,16 @@ typedef struct {
     bool fullscreen;
     int gl_major_version;
     int gl_minor_version;
-} renderer_window_config_t;
+} RendererWindowConfig_t;
 
 // Default renderer configuration
-renderer_config_t renderer_config_default(void);
+RendererConfig_t renderer_config_default(void);
 
 // Default window configuration
-renderer_window_config_t renderer_window_config_default(void);
+RendererWindowConfig_t renderer_window_config_default(void);
 
 // Initialize the renderer with window
-bool renderer_init_with_window(renderer_config_t renderer_config, renderer_window_config_t window_config);
+bool renderer_init_with_window(RendererConfig_t renderer_config, RendererWindowConfig_t window_config);
 
 // Create the cube geometry
 void renderer_create_cube(void);

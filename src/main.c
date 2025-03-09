@@ -6,8 +6,8 @@ int main() {
     printf("Hello from Cube!\n");
     
     // Create default configurations
-    renderer_config_t renderer_config = renderer_config_default();
-    renderer_window_config_t window_config = renderer_window_config_default();
+    RendererConfig_t renderer_config = renderer_config_default();
+    RendererWindowConfig_t window_config = renderer_window_config_default();
     
     // Initialize renderer with window
     if (!renderer_init_with_window(renderer_config, window_config)) {

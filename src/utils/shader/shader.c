@@ -30,7 +30,7 @@ static void check_shader_errors(unsigned int shader, const char* type) {
     }
 }
 
-shader_program_t shader_create_program(const char* vertex_shader_source, const char* fragment_shader_source) {
+ShaderProgram_t shader_create_program(const char* vertex_shader_source, const char* fragment_shader_source) {
     // Create vertex shader
     unsigned int vertex_shader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertex_shader, 1, &vertex_shader_source, NULL);
@@ -44,7 +44,7 @@ shader_program_t shader_create_program(const char* vertex_shader_source, const c
     check_shader_errors(fragment_shader, "FRAGMENT");
     
     // Create shader program
-    shader_program_t program = glCreateProgram();
+    ShaderProgram_t program = glCreateProgram();
     glAttachShader(program, vertex_shader);
     glAttachShader(program, fragment_shader);
     glLinkProgram(program);
@@ -57,18 +57,18 @@ shader_program_t shader_create_program(const char* vertex_shader_source, const c
     return program;
 }
 
-void shader_use_program(shader_program_t program) {
+void shader_use_program(ShaderProgram_t program) {
     glUseProgram(program);
 }
 
-void shader_set_float(shader_program_t program, const char* name, float value) {
+void shader_set_float(ShaderProgram_t program, const char* name, float value) {
     glUniform1f(glGetUniformLocation(program, name), value);
 }
 
-void shader_set_mat4(shader_program_t program, const char* name, const float* matrix) {
+void shader_set_mat4(ShaderProgram_t program, const char* name, const float* matrix) {
     glUniformMatrix4fv(glGetUniformLocation(program, name), 1, GL_FALSE, matrix);
 }
 
-void shader_delete_program(shader_program_t program) {
+void shader_delete_program(ShaderProgram_t program) {
     glDeleteProgram(program);
 } 
