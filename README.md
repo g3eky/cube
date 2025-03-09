@@ -1,6 +1,6 @@
 # Cube C Program with CMake
 
-A simple C program built using CMake with OpenGL support.
+A simple C program built using CMake with OpenGL and GLFW support. This program creates a window and initializes OpenGL.
 
 ## Project Structure
 
@@ -18,21 +18,25 @@ A simple C program built using CMake with OpenGL support.
 - C compiler (gcc, clang, etc.)
 - CMake (version 3.10 or higher)
 - OpenGL development libraries
+- GLFW (automatically downloaded if not found)
 
 ### Installing OpenGL Dependencies
 
 #### On Ubuntu/Debian:
 ```
-sudo apt-get install libgl1-mesa-dev
+sudo apt-get install libgl1-mesa-dev libglfw3-dev
 ```
 
 #### On macOS:
-OpenGL is included with the system.
+OpenGL is included with the system. GLFW can be installed via Homebrew:
+```
+brew install glfw
+```
 
 #### On Windows:
-OpenGL libraries are typically included with graphics drivers. You may also need:
+OpenGL libraries are typically included with graphics drivers. GLFW can be installed via vcpkg:
 ```
-vcpkg install opengl
+vcpkg install glfw3
 ```
 
 ## Building the Project
@@ -61,10 +65,7 @@ After building, you can run the program from the build directory:
 ./cube
 ```
 
-You should see the output:
-```
-Hello from Cube!
-```
+This will open a window with a teal background. Press ESC to close the window.
 
 ## Version Control
 
