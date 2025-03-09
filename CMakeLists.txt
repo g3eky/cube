@@ -49,8 +49,8 @@ add_executable(cube
     src/main.c
     src/window/window.c
     src/renderer/renderer.c
-    src/shader/shader.c
-    src/math/math_utils.c
+    src/utils/shader/shader.c
+    src/utils/math/math_utils.c
 )
 
 # Link against OpenGL, GLFW, and math libraries

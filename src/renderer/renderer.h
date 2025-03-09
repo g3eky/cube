@@ -1,7 +1,7 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
-#include "../window/window.h"
+#include <stdbool.h>
 
 // Renderer configuration structure
 typedef struct {
@@ -12,11 +12,24 @@ typedef struct {
     float rotationSpeed; // Rotation speed in radians per second
 } RendererConfig;
 
+// Window configuration structure
+typedef struct {
+    int width;
+    int height;
+    const char* title;
+    bool fullscreen;
+    int glMajorVersion;
+    int glMinorVersion;
+} WindowConfig;
+
 // Default renderer configuration
 RendererConfig defaultRendererConfig();
 
-// Initialize the renderer
-void initializeRenderer(RendererConfig config);
+// Default window configuration
+WindowConfig defaultWindowConfig();
+
+// Initialize the renderer with window
+bool initializeRendererWithWindow(RendererConfig rendererConfig, WindowConfig windowConfig);
 
 // Create the cube geometry
 void createCube();
@@ -25,9 +38,9 @@ void createCube();
 void renderFrame();
 
 // Run the main render loop
-void runRenderLoop(WindowHandle window);
+void runMainLoop();
 
-// Clean up renderer resources
-void terminateRenderer();
+// Clean up renderer and window resources
+void terminateRendererAndWindow();
 
 #endif /* RENDERER_H */ 

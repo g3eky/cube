@@ -1,7 +1,7 @@
 #include "renderer.h"
 #include "../window/window.h"
-#include "../shader/shader.h"
-#include "../math/math_utils.h"
+#include "../utils/shader/shader.h"
+#include "../utils/math/math_utils.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -16,6 +16,9 @@
 
 // Global renderer configuration
 static RendererConfig currentConfig;
+
+// Window handle
+static WindowHandle window = NULL;
 
 // Shader program
 static ShaderProgram shaderProgram;
@@ -87,9 +90,38 @@ RendererConfig defaultRendererConfig() {
     return config;
 }
 
-void initializeRenderer(RendererConfig config) {
-    // Store the configuration
-    currentConfig = config;
+WindowConfig defaultWindowConfig() {
+    WindowConfig config;
+    config.width = 800;
+    config.height = 600;
+    config.title = "Cube";
+    config.fullscreen = false;
+    config.glMajorVersion = 3;
+    config.glMinorVersion = 3;
+    return config;
+}
+
+bool initializeRendererWithWindow(RendererConfig rendererConfig, WindowConfig windowConfig) {
+    // Store the renderer configuration
+    currentConfig = rendererConfig;
+    
+    // Convert our WindowConfig to the window module's format
+    struct WindowConfig_Window winConfig;
+    winConfig.width = windowConfig.width;
+    winConfig.height = windowConfig.height;
+    winConfig.title = windowConfig.title;
+    winConfig.fullscreen = windowConfig.fullscreen;
+    winConfig.glMajorVersion = windowConfig.glMajorVersion;
+    winConfig.glMinorVersion = windowConfig.glMinorVersion;
+    
+    // Initialize window
+    window = initializeWindow(winConfig);
+    if (!window) {
+        return false;
+    }
+    
+    // Set up window callbacks
+    setupWindowCallbacks(window);
     
     // Print OpenGL information
     printOpenGLInfo();
@@ -105,6 +137,8 @@ void initializeRenderer(RendererConfig config) {
     
     // Create the cube geometry
     createCube();
+    
+    return true;
 }
 
 void createCube() {
@@ -183,7 +217,12 @@ void renderFrame() {
     glBindVertexArray(0);
 }
 
-void runRenderLoop(WindowHandle window) {
+void runMainLoop() {
+    if (!window) {
+        fprintf(stderr, "Cannot run main loop: window not initialized\n");
+        return;
+    }
+    
     // Main loop
     while (!windowShouldClose(window)) {
         // Render a frame
@@ -197,10 +236,16 @@ void runRenderLoop(WindowHandle window) {
     }
 }
 
-void terminateRenderer() {
+void terminateRendererAndWindow() {
     // Clean up renderer resources
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
     glDeleteBuffers(1, &EBO);
     deleteShaderProgram(shaderProgram);
+    
+    // Clean up window
+    if (window) {
+        terminateWindow(window);
+        window = NULL;
+    }
 } 

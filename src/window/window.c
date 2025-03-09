@@ -25,8 +25,8 @@ static void framebufferSizeCallback(GLFWwindow* window, int width, int height) {
     glViewport(0, 0, width, height);
 }
 
-WindowConfig defaultWindowConfig() {
-    WindowConfig config;
+WindowConfig_Window defaultWindowConfig_Window() {
+    WindowConfig_Window config;
     config.width = 800;
     config.height = 600;
     config.title = "Cube";
@@ -36,7 +36,7 @@ WindowConfig defaultWindowConfig() {
     return config;
 }
 
-WindowHandle initializeWindow(WindowConfig config) {
+WindowHandle initializeWindow(WindowConfig_Window config) {
     // Initialize GLFW
     if (!glfwInit()) {
         fprintf(stderr, "Failed to initialize window system\n");

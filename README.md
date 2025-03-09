@@ -13,15 +13,16 @@ A simple C program built using CMake with OpenGL and GLFW support. This program 
 ├── README.md         # This file
 └── src/              # Source code directory
     ├── main.c        # Main program
-    ├── math/         # Math utilities module
-    │   ├── math_utils.h
-    │   └── math_utils.c
     ├── renderer/     # Renderer module
     │   ├── renderer.h
     │   └── renderer.c
-    ├── shader/       # Shader module
-    │   ├── shader.h
-    │   └── shader.c
+    ├── utils/        # Utilities
+    │   ├── math/     # Math utilities module
+    │   │   ├── math_utils.h
+    │   │   └── math_utils.c
+    │   └── shader/   # Shader module
+    │       ├── shader.h
+    │       └── shader.c
     └── window/       # Window management module
         ├── window.h
         └── window.c

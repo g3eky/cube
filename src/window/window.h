@@ -8,20 +8,20 @@
 typedef struct WindowHandle* WindowHandle;
 
 // Window configuration structure
-typedef struct {
+typedef struct WindowConfig_Window {
     int width;
     int height;
     const char* title;
     bool fullscreen;
     int glMajorVersion;
     int glMinorVersion;
-} WindowConfig;
+} WindowConfig_Window;
 
 // Default window configuration
-WindowConfig defaultWindowConfig();
+WindowConfig_Window defaultWindowConfig_Window();
 
 // Initialize and create a window
-WindowHandle initializeWindow(WindowConfig config);
+WindowHandle initializeWindow(WindowConfig_Window config);
 
 // Set up callbacks for the window
 void setupWindowCallbacks(WindowHandle window);

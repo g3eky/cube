@@ -1,35 +1,24 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "window/window.h"
 #include "renderer/renderer.h"
 
 int main() {
     printf("Hello from Cube!\n");
     
-    // Create default window configuration
+    // Create default configurations
+    RendererConfig rendererConfig = defaultRendererConfig();
     WindowConfig windowConfig = defaultWindowConfig();
     
-    // Initialize window
-    WindowHandle window = initializeWindow(windowConfig);
-    if (!window) {
+    // Initialize renderer with window
+    if (!initializeRendererWithWindow(rendererConfig, windowConfig)) {
         return EXIT_FAILURE;
     }
     
-    // Set up window callbacks
-    setupWindowCallbacks(window);
-    
-    // Create default renderer configuration
-    RendererConfig rendererConfig = defaultRendererConfig();
-    
-    // Initialize renderer
-    initializeRenderer(rendererConfig);
-    
-    // Run the main render loop
-    runRenderLoop(window);
+    // Run the main loop
+    runMainLoop();
     
     // Clean up
-    terminateRenderer();
-    terminateWindow(window);
+    terminateRendererAndWindow();
     
     printf("Exiting Cube application\n");
     return EXIT_SUCCESS;
