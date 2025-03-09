@@ -9,13 +9,10 @@
 int main() {
     printf("Hello from Cube!\n");
     
-    // Print OpenGL information
-    const char* version = (const char*)glGetString(GL_VERSION);
-    if (version) {
-        printf("OpenGL Version: %s\n", version);
-    } else {
-        printf("OpenGL not initialized properly.\n");
-    }
+    // Note: To properly use OpenGL, we need to create a window and OpenGL context
+    // For now, we'll just indicate that OpenGL is available but not initialized
+    printf("OpenGL is available but not initialized in this simple example.\n");
+    printf("To use OpenGL properly, we would need to create a window and context using GLFW or similar.\n");
     
     return 0;
 } 
