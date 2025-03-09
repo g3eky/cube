@@ -29,6 +29,18 @@ endif()
 # Include OpenGL headers
 include_directories(${OPENGL_INCLUDE_DIR})
 
+# Include GLFW headers
+if(TARGET glfw)
+    # If we're using the FetchContent version
+    include_directories(${CMAKE_BINARY_DIR}/_deps/glfw-src/include)
+else()
+    # If we're using a system-installed version
+    include_directories(${GLFW_INCLUDE_DIRS})
+endif()
+
+# Generate compile_commands.json for linters and IDE integration
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 # Add the executable
 add_executable(cube src/main.c)
 

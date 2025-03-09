@@ -1,0 +1,6 @@
+CompileFlags:
+  Add: 
+    - "-I${workspaceFolder}/build/_deps/glfw-src/include"
+    - "-I/usr/local/include"
+    - "-I/opt/homebrew/include"  # For macOS with Homebrew
+    - "-I/usr/include" 
