@@ -144,8 +144,12 @@ void renderer_render_frame(void) {
     // Create view and projection matrices
     float view[16], projection[16];
     
-    // View matrix - move the camera back
-    matrix_translate(view, 0.0f, 0.0f, -3.0f);
+    // View matrix - use look_at to position the camera
+    // Position the camera at (0, 0, 4) looking at the origin (0, 0, 0) with up vector (0, 1, 0)
+    matrix_look_at(view, 
+                  0.0f, 0.0f, 4.0f,   // Eye position
+                  0.0f, 0.0f, 0.0f,   // Look at point (center of the scene)
+                  0.0f, 1.0f, 0.0f);  // Up vector
     
     // Get window size for aspect ratio
     int width, height;

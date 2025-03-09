@@ -79,12 +79,20 @@ void cube_render(Cube* cube, ShaderProgram shader_program, float delta_time, flo
     cube->rotation_angle += rotation_speed * delta_time;
     
     // Create transformation matrices
-    float model[16], rotation_y[16], rotation_x[16];
+    float model[16], rotation_y[16], rotation_x[16], translation[16], temp[16];
     
-    // Model matrix - rotate the cube
+    // Create rotation matrices
     matrix_rotate_y(rotation_y, cube->rotation_angle);
     matrix_rotate_x(rotation_x, cube->rotation_angle * 0.5f);
-    matrix_multiply(model, rotation_y, rotation_x);
+    
+    // Combine rotations
+    matrix_multiply(temp, rotation_y, rotation_x);
+    
+    // Create translation matrix to center the cube (if needed)
+    matrix_translate(translation, 0.0f, 0.0f, 0.0f);
+    
+    // Combine translation and rotation for final model matrix
+    matrix_multiply(model, translation, temp);
     
     // Set model uniform
     shader_set_mat4(shader_program, "model", model);
