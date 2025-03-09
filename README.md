@@ -13,8 +13,10 @@ A simple C program built using CMake with OpenGL and GLFW support. This program 
 ├── README.md         # This file
 └── src/              # Source code directory
     ├── include/      # Header files
+    │   ├── renderer.h # Renderer management header
     │   └── window.h  # Window management header
     ├── main.c        # Main program
+    ├── renderer.c    # Renderer implementation
     └── window.c      # Window management implementation
 ```
 

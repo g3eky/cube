@@ -48,6 +48,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 add_executable(cube 
     src/main.c
     src/window.c
+    src/renderer.c
 )
 
 # Link against OpenGL and GLFW libraries

@@ -1,15 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "include/window.h"
+#include "include/renderer.h"
 
 int main() {
     printf("Hello from Cube!\n");
     
     // Create default window configuration
-    WindowConfig config = defaultWindowConfig();
+    WindowConfig windowConfig = defaultWindowConfig();
     
     // Initialize window
-    WindowHandle window = initializeWindow(config);
+    WindowHandle window = initializeWindow(windowConfig);
     if (!window) {
         return EXIT_FAILURE;
     }
@@ -17,25 +18,17 @@ int main() {
     // Set up window callbacks
     setupWindowCallbacks(window);
     
-    // Print OpenGL information
-    printOpenGLInfo();
+    // Create default renderer configuration
+    RendererConfig rendererConfig = defaultRendererConfig();
     
-    // Main loop
-    while (!windowShouldClose(window)) {
-        // Clear the screen
-        clearWindow();
-        
-        // Set the clear color (background)
-        setClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        
-        // Swap front and back buffers
-        swapWindowBuffers(window);
-        
-        // Poll for and process events
-        pollWindowEvents();
-    }
+    // Initialize renderer
+    initializeRenderer(rendererConfig);
+    
+    // Run the main render loop
+    runRenderLoop(window);
     
     // Clean up
+    terminateRenderer();
     terminateWindow(window);
     
     printf("Exiting Cube application\n");
