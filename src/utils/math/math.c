@@ -1,4 +1,4 @@
-#include "math_utils.h"
+#include "math.h"
 #include <math.h>
 #include <string.h>
 
@@ -18,51 +18,52 @@ void math_mat4_perspective(float* matrix, float fov, float aspect, float near, f
     memset(matrix, 0, 16 * sizeof(float));
     
     float tan_half_fov = tanf(fov / 2.0f);
+    float f = 1.0f / tan_half_fov;
     
-    matrix[0] = 1.0f / (aspect * tan_half_fov);
-    matrix[5] = 1.0f / tan_half_fov;
-    matrix[10] = -(far + near) / (far - near);
+    matrix[0] = f / aspect;
+    matrix[5] = f;
+    matrix[10] = (far + near) / (near - far);
     matrix[11] = -1.0f;
-    matrix[14] = -(2.0f * far * near) / (far - near);
+    matrix[14] = (2.0f * far * near) / (near - far);
 }
 
 void math_mat4_rotate_x(float* matrix, float angle) {
     // Initialize to identity
     math_mat4_identity(matrix);
     
-    float c = cosf(angle);
-    float s = sinf(angle);
+    float cos_angle = cosf(angle);
+    float sin_angle = sinf(angle);
     
-    matrix[5] = c;
-    matrix[6] = s;
-    matrix[9] = -s;
-    matrix[10] = c;
+    matrix[5] = cos_angle;
+    matrix[6] = sin_angle;
+    matrix[9] = -sin_angle;
+    matrix[10] = cos_angle;
 }
 
 void math_mat4_rotate_y(float* matrix, float angle) {
     // Initialize to identity
     math_mat4_identity(matrix);
     
-    float c = cosf(angle);
-    float s = sinf(angle);
+    float cos_angle = cosf(angle);
+    float sin_angle = sinf(angle);
     
-    matrix[0] = c;
-    matrix[2] = -s;
-    matrix[8] = s;
-    matrix[10] = c;
+    matrix[0] = cos_angle;
+    matrix[2] = -sin_angle;
+    matrix[8] = sin_angle;
+    matrix[10] = cos_angle;
 }
 
 void math_mat4_rotate_z(float* matrix, float angle) {
     // Initialize to identity
     math_mat4_identity(matrix);
     
-    float c = cosf(angle);
-    float s = sinf(angle);
+    float cos_angle = cosf(angle);
+    float sin_angle = sinf(angle);
     
-    matrix[0] = c;
-    matrix[1] = s;
-    matrix[4] = -s;
-    matrix[5] = c;
+    matrix[0] = cos_angle;
+    matrix[1] = sin_angle;
+    matrix[4] = -sin_angle;
+    matrix[5] = cos_angle;
 }
 
 void math_mat4_translate(float* matrix, float x, float y, float z) {

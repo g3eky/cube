@@ -1,7 +1,7 @@
 #include "renderer.h"
 #include "../window/window.h"
 #include "../utils/shader/shader.h"
-#include "../utils/math/math_utils.h"
+#include "../utils/math/math.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>

@@ -1,5 +1,5 @@
-#ifndef MATH_UTILS_H
-#define MATH_UTILS_H
+#ifndef MATH_H
+#define MATH_H
 
 // Create a 4x4 identity matrix
 void math_mat4_identity(float* matrix);
@@ -22,4 +22,4 @@ void math_mat4_translate(float* matrix, float x, float y, float z);
 // Multiply two 4x4 matrices
 void math_mat4_multiply(float* result, float* a, float* b);
 
-#endif /* MATH_UTILS_H */ 
+#endif /* MATH_H */ 
