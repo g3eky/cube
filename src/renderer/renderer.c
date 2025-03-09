@@ -4,8 +4,9 @@
 #include "../utils/math/math.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <math.h>
-#include <time.h>
+#include <GLFW/glfw3.h>
 
 // Include OpenGL headers
 #ifdef __APPLE__
@@ -27,7 +28,7 @@ static ShaderProgram shader_program;
 static unsigned int VAO, VBO, EBO;
 
 // Rotation angle
-static float rotation_angle = 0.0f;
+static double rotation_angle = 0.0;
 
 // Time tracking
 static double last_frame_time = 0.0;
@@ -130,7 +131,7 @@ bool renderer_init_with_window(RendererConfig renderer_config, RendererWindowCon
     shader_program = shader_create_program(vertex_shader_source, fragment_shader_source);
     
     // Initialize time tracking
-    last_frame_time = (double)clock() / CLOCKS_PER_SEC;
+    last_frame_time = glfwGetTime();
     
     // Enable depth testing
     glEnable(GL_DEPTH_TEST);
@@ -171,7 +172,7 @@ void renderer_create_cube(void) {
 
 void renderer_render_frame(void) {
     // Calculate delta time
-    double current_time = (double)clock() / CLOCKS_PER_SEC;
+    double current_time = glfwGetTime();
     double delta_time = current_time - last_frame_time;
     last_frame_time = current_time;
     
@@ -203,8 +204,14 @@ void renderer_render_frame(void) {
     // View matrix - move the camera back
     matrix_translate(view, 0.0f, 0.0f, -3.0f);
     
+    // Get window size for aspect ratio
+    int width, height;
+    GLFWwindow* glfw_window = window_get_glfw_window(window);
+    glfwGetFramebufferSize(glfw_window, &width, &height);
+    float aspect_ratio = (float)width / (float)height;
+    
     // Projection matrix - perspective projection
-    matrix_perspective(projection, 45.0f * (3.14159f / 180.0f), 800.0f / 600.0f, 0.1f, 100.0f);
+    matrix_perspective(projection, 45.0f * (3.14159f / 180.0f), aspect_ratio, 0.1f, 100.0f);
     
     // Set uniforms
     shader_set_mat4(shader_program, "model", model);
@@ -215,12 +222,6 @@ void renderer_render_frame(void) {
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
-    
-    // Swap buffers
-    window_swap_buffers(window);
-    
-    // Poll for events
-    window_poll_events();
 }
 
 void renderer_run_main_loop(void) {

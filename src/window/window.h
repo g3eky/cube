@@ -3,6 +3,9 @@
 
 #include <stdbool.h>
 
+// Forward declaration for GLFW window
+typedef struct GLFWwindow GLFWwindow;
+
 // Forward declaration of the window handle type
 // This hides the implementation detail that we're using GLFW
 typedef struct WindowImpl* Window;
@@ -46,5 +49,8 @@ void window_set_clear_color(float r, float g, float b, float a);
 
 // Clear the window
 void window_clear(void);
+
+// Get the underlying GLFW window
+GLFWwindow* window_get_glfw_window(Window window);
 
 #endif /* WINDOW_H */ 
