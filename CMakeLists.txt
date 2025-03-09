@@ -49,7 +49,9 @@ add_executable(cube
     src/main.c
     src/window.c
     src/renderer.c
+    src/shader.c
+    src/math_utils.c
 )
 
-# Link against OpenGL and GLFW libraries
-target_link_libraries(cube ${OPENGL_LIBRARIES} glfw) 
+# Link against OpenGL, GLFW, and math libraries
+target_link_libraries(cube ${OPENGL_LIBRARIES} glfw m) 

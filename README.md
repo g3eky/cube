@@ -1,6 +1,6 @@
 # Cube C Program with CMake
 
-A simple C program built using CMake with OpenGL and GLFW support. This program creates a window and initializes OpenGL.
+A simple C program built using CMake with OpenGL and GLFW support. This program creates a window and displays a rotating 3D cube with colored faces.
 
 ## Project Structure
 
@@ -13,12 +13,25 @@ A simple C program built using CMake with OpenGL and GLFW support. This program 
 ├── README.md         # This file
 └── src/              # Source code directory
     ├── include/      # Header files
+    │   ├── math_utils.h # Math utilities header
     │   ├── renderer.h # Renderer management header
-    │   └── window.h  # Window management header
+    │   ├── shader.h   # Shader management header
+    │   └── window.h   # Window management header
     ├── main.c        # Main program
+    ├── math_utils.c  # Math utilities implementation
     ├── renderer.c    # Renderer implementation
+    ├── shader.c      # Shader implementation
     └── window.c      # Window management implementation
 ```
+
+## Features
+
+- Modern OpenGL 3.3 Core Profile
+- Abstracted window management
+- Shader-based rendering
+- 3D transformations (rotation, perspective)
+- Colored cube with smooth rotation
+- Clean, modular code structure
 
 ## Prerequisites
 
@@ -72,7 +85,7 @@ After building, you can run the program from the build directory:
 ./cube
 ```
 
-This will open a window with a teal background. Press ESC to close the window.
+This will open a window with a rotating colored cube. Press ESC to close the window.
 
 ## Version Control
 

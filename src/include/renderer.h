@@ -9,6 +9,7 @@ typedef struct {
     float clearColorG;
     float clearColorB;
     float clearColorA;
+    float rotationSpeed; // Rotation speed in radians per second
 } RendererConfig;
 
 // Default renderer configuration
@@ -16,6 +17,9 @@ RendererConfig defaultRendererConfig();
 
 // Initialize the renderer
 void initializeRenderer(RendererConfig config);
+
+// Create the cube geometry
+void createCube();
 
 // Render a single frame
 void renderFrame();

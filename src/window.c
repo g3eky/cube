@@ -20,6 +20,11 @@ static void keyCallback(GLFWwindow* window, int key, int scancode, int action, i
     }
 }
 
+// Framebuffer size callback
+static void framebufferSizeCallback(GLFWwindow* window, int width, int height) {
+    glViewport(0, 0, width, height);
+}
+
 WindowConfig defaultWindowConfig() {
     WindowConfig config;
     config.width = 800;
@@ -69,8 +74,14 @@ WindowHandle initializeWindow(WindowConfig config) {
     // Make the window's context current
     glfwMakeContextCurrent(glfwWindow);
     
+    // Set framebuffer size callback
+    glfwSetFramebufferSizeCallback(glfwWindow, framebufferSizeCallback);
+    
     // Enable vsync
     glfwSwapInterval(1);
+    
+    // Initialize viewport
+    glViewport(0, 0, config.width, config.height);
     
     // Create and return our window handle
     WindowHandle handle = (WindowHandle)malloc(sizeof(struct WindowHandle));
