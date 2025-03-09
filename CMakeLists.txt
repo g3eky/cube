@@ -38,11 +38,17 @@ else()
     include_directories(${GLFW_INCLUDE_DIRS})
 endif()
 
+# Include our own headers
+include_directories(${CMAKE_SOURCE_DIR}/src)
+
 # Generate compile_commands.json for linters and IDE integration
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Add the executable
-add_executable(cube src/main.c)
+add_executable(cube 
+    src/main.c
+    src/window.c
+)
 
 # Link against OpenGL and GLFW libraries
 target_link_libraries(cube ${OPENGL_LIBRARIES} glfw) 

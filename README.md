@@ -7,10 +7,15 @@ A simple C program built using CMake with OpenGL and GLFW support. This program 
 ```
 .
 ├── .gitignore        # Git ignore file
+├── .clangd           # Clangd configuration
+├── .vscode/          # VSCode configuration
 ├── CMakeLists.txt    # CMake configuration file
 ├── README.md         # This file
 └── src/              # Source code directory
-    └── main.c        # Main C program
+    ├── include/      # Header files
+    │   └── window.h  # Window management header
+    ├── main.c        # Main program
+    └── window.c      # Window management implementation
 ```
 
 ## Prerequisites
