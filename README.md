@@ -1,6 +1,6 @@
 # Cube C Program with CMake
 
-A simple C program built using CMake.
+A simple C program built using CMake with OpenGL support.
 
 ## Project Structure
 
@@ -17,6 +17,23 @@ A simple C program built using CMake.
 
 - C compiler (gcc, clang, etc.)
 - CMake (version 3.10 or higher)
+- OpenGL development libraries
+
+### Installing OpenGL Dependencies
+
+#### On Ubuntu/Debian:
+```
+sudo apt-get install libgl1-mesa-dev
+```
+
+#### On macOS:
+OpenGL is included with the system.
+
+#### On Windows:
+OpenGL libraries are typically included with graphics drivers. You may also need:
+```
+vcpkg install opengl
+```
 
 ## Building the Project
 
@@ -62,4 +79,4 @@ To make changes and commit them:
 ```
 git add .
 git commit -m "Your commit message"
-``` 
+```
