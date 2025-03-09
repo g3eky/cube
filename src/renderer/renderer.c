@@ -11,14 +11,14 @@
 #ifdef __APPLE__
 #include <OpenGL/gl3.h>
 #else
-#include <GL/glew.h>
+#include <glad/glad.h>
 #endif
 
 // Global renderer configuration
 static RendererConfig current_config;
 
 // Window handle
-static WindowHandle window = NULL;
+static Window window = NULL;
 
 // Shader program
 static ShaderProgram shader_program;

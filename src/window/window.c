@@ -3,8 +3,8 @@
 #include <stdlib.h>
 #include <GLFW/glfw3.h>
 
-// Define the actual window handle structure
-struct WindowHandle {
+// Define the actual window implementation structure
+struct WindowImpl {
     GLFWwindow* glfw_window;
 };
 
@@ -36,7 +36,7 @@ WindowConfig window_config_default(void) {
     return config;
 }
 
-WindowHandle window_init(WindowConfig config) {
+Window window_init(WindowConfig config) {
     // Initialize GLFW
     if (!glfwInit()) {
         fprintf(stderr, "Failed to initialize window system\n");
@@ -84,7 +84,7 @@ WindowHandle window_init(WindowConfig config) {
     glViewport(0, 0, config.width, config.height);
     
     // Create and return our window handle
-    WindowHandle handle = (WindowHandle)malloc(sizeof(struct WindowHandle));
+    Window handle = (Window)malloc(sizeof(struct WindowImpl));
     if (!handle) {
         fprintf(stderr, "Failed to allocate window handle\n");
         glfwDestroyWindow(glfw_window);
@@ -96,14 +96,14 @@ WindowHandle window_init(WindowConfig config) {
     return handle;
 }
 
-void window_setup_callbacks(WindowHandle window) {
+void window_setup_callbacks(Window window) {
     if (!window) return;
     
     // Set key callback
     glfwSetKeyCallback(window->glfw_window, key_callback);
 }
 
-void window_terminate(WindowHandle window) {
+void window_terminate(Window window) {
     if (!window) return;
     
     glfwDestroyWindow(window->glfw_window);
@@ -113,7 +113,7 @@ void window_terminate(WindowHandle window) {
     free(window);
 }
 
-bool window_should_close(WindowHandle window) {
+bool window_should_close(Window window) {
     if (!window) return true;
     
     return glfwWindowShouldClose(window->glfw_window);
@@ -123,7 +123,7 @@ void window_poll_events(void) {
     glfwPollEvents();
 }
 
-void window_swap_buffers(WindowHandle window) {
+void window_swap_buffers(Window window) {
     if (!window) return;
     
     glfwSwapBuffers(window->glfw_window);
