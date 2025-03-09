@@ -15,13 +15,13 @@
 #endif
 
 // Global renderer configuration
-static RendererConfig_t current_config;
+static RendererConfig current_config;
 
 // Window handle
-static WindowHandle_t window = NULL;
+static WindowHandle window = NULL;
 
 // Shader program
-static ShaderProgram_t shader_program;
+static ShaderProgram shader_program;
 
 // Vertex Array Object and Vertex Buffer Object
 static unsigned int VAO, VBO, EBO;
@@ -80,8 +80,8 @@ static unsigned int indices[] = {
     4, 5, 1, 1, 0, 4  // Bottom face
 };
 
-RendererConfig_t renderer_config_default(void) {
-    RendererConfig_t config;
+RendererConfig renderer_config_default(void) {
+    RendererConfig config;
     config.clear_color_r = 0.2f;
     config.clear_color_g = 0.3f;
     config.clear_color_b = 0.3f;
@@ -90,8 +90,8 @@ RendererConfig_t renderer_config_default(void) {
     return config;
 }
 
-RendererWindowConfig_t renderer_window_config_default(void) {
-    RendererWindowConfig_t config;
+RendererWindowConfig renderer_window_config_default(void) {
+    RendererWindowConfig config;
     config.width = 800;
     config.height = 600;
     config.title = "Cube";
@@ -101,12 +101,12 @@ RendererWindowConfig_t renderer_window_config_default(void) {
     return config;
 }
 
-bool renderer_init_with_window(RendererConfig_t renderer_config, RendererWindowConfig_t window_config) {
+bool renderer_init_with_window(RendererConfig renderer_config, RendererWindowConfig window_config) {
     // Store the renderer configuration
     current_config = renderer_config;
     
     // Convert our WindowConfig to the window module's format
-    WindowConfig_t win_config;
+    WindowConfig win_config;
     win_config.width = window_config.width;
     win_config.height = window_config.height;
     win_config.title = window_config.title;

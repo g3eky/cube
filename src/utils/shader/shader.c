@@ -19,18 +19,18 @@ static void check_shader_errors(unsigned int shader, const char* type) {
         glGetProgramiv(shader, GL_LINK_STATUS, &success);
         if (!success) {
             glGetProgramInfoLog(shader, 1024, NULL, info_log);
-            fprintf(stderr, "ERROR::SHADER::PROGRAM::LINKING_FAILED\n%s\n", info_log);
+            printf("ERROR::SHADER::PROGRAM::LINKING_FAILED\n%s\n", info_log);
         }
     } else {
         glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
         if (!success) {
             glGetShaderInfoLog(shader, 1024, NULL, info_log);
-            fprintf(stderr, "ERROR::SHADER::%s::COMPILATION_FAILED\n%s\n", type, info_log);
+            printf("ERROR::SHADER::%s::COMPILATION_FAILED\n%s\n", type, info_log);
         }
     }
 }
 
-ShaderProgram_t shader_create_program(const char* vertex_shader_source, const char* fragment_shader_source) {
+ShaderProgram shader_create_program(const char* vertex_shader_source, const char* fragment_shader_source) {
     // Create vertex shader
     unsigned int vertex_shader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertex_shader, 1, &vertex_shader_source, NULL);
@@ -44,31 +44,31 @@ ShaderProgram_t shader_create_program(const char* vertex_shader_source, const ch
     check_shader_errors(fragment_shader, "FRAGMENT");
     
     // Create shader program
-    ShaderProgram_t program = glCreateProgram();
+    ShaderProgram program = glCreateProgram();
     glAttachShader(program, vertex_shader);
     glAttachShader(program, fragment_shader);
     glLinkProgram(program);
     check_shader_errors(program, "PROGRAM");
     
-    // Delete shaders as they're linked into the program now
+    // Delete shaders as they're linked into the program now and no longer necessary
     glDeleteShader(vertex_shader);
     glDeleteShader(fragment_shader);
     
     return program;
 }
 
-void shader_use_program(ShaderProgram_t program) {
+void shader_use_program(ShaderProgram program) {
     glUseProgram(program);
 }
 
-void shader_set_float(ShaderProgram_t program, const char* name, float value) {
+void shader_set_float(ShaderProgram program, const char* name, float value) {
     glUniform1f(glGetUniformLocation(program, name), value);
 }
 
-void shader_set_mat4(ShaderProgram_t program, const char* name, const float* matrix) {
+void shader_set_mat4(ShaderProgram program, const char* name, const float* matrix) {
     glUniformMatrix4fv(glGetUniformLocation(program, name), 1, GL_FALSE, matrix);
 }
 
-void shader_delete_program(ShaderProgram_t program) {
+void shader_delete_program(ShaderProgram program) {
     glDeleteProgram(program);
 } 
