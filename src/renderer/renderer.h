@@ -1,7 +1,7 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
-#include "window.h"
+#include "../window/window.h"
 
 // Renderer configuration structure
 typedef struct {

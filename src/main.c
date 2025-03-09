@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "include/window.h"
-#include "include/renderer.h"
+#include "window/window.h"
+#include "renderer/renderer.h"
 
 int main() {
     printf("Hello from Cube!\n");

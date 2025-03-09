@@ -47,10 +47,10 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # Add the executable
 add_executable(cube 
     src/main.c
-    src/window.c
-    src/renderer.c
-    src/shader.c
-    src/math_utils.c
+    src/window/window.c
+    src/renderer/renderer.c
+    src/shader/shader.c
+    src/math/math_utils.c
 )
 
 # Link against OpenGL, GLFW, and math libraries

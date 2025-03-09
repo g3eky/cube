@@ -12,16 +12,19 @@ A simple C program built using CMake with OpenGL and GLFW support. This program 
 ├── CMakeLists.txt    # CMake configuration file
 ├── README.md         # This file
 └── src/              # Source code directory
-    ├── include/      # Header files
-    │   ├── math_utils.h # Math utilities header
-    │   ├── renderer.h # Renderer management header
-    │   ├── shader.h   # Shader management header
-    │   └── window.h   # Window management header
     ├── main.c        # Main program
-    ├── math_utils.c  # Math utilities implementation
-    ├── renderer.c    # Renderer implementation
-    ├── shader.c      # Shader implementation
-    └── window.c      # Window management implementation
+    ├── math/         # Math utilities module
+    │   ├── math_utils.h
+    │   └── math_utils.c
+    ├── renderer/     # Renderer module
+    │   ├── renderer.h
+    │   └── renderer.c
+    ├── shader/       # Shader module
+    │   ├── shader.h
+    │   └── shader.c
+    └── window/       # Window management module
+        ├── window.h
+        └── window.c
 ```
 
 ## Features
