@@ -11,64 +11,64 @@
 #endif
 
 // Helper function to check shader compilation/linking errors
-static void checkShaderErrors(unsigned int shader, const char* type) {
+static void check_shader_errors(unsigned int shader, const char* type) {
     int success;
-    char infoLog[1024];
+    char info_log[1024];
     
     if (strcmp(type, "PROGRAM") == 0) {
         glGetProgramiv(shader, GL_LINK_STATUS, &success);
         if (!success) {
-            glGetProgramInfoLog(shader, 1024, NULL, infoLog);
-            fprintf(stderr, "ERROR::SHADER::PROGRAM::LINKING_FAILED\n%s\n", infoLog);
+            glGetProgramInfoLog(shader, 1024, NULL, info_log);
+            fprintf(stderr, "ERROR::SHADER::PROGRAM::LINKING_FAILED\n%s\n", info_log);
         }
     } else {
         glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
         if (!success) {
-            glGetShaderInfoLog(shader, 1024, NULL, infoLog);
-            fprintf(stderr, "ERROR::SHADER::%s::COMPILATION_FAILED\n%s\n", type, infoLog);
+            glGetShaderInfoLog(shader, 1024, NULL, info_log);
+            fprintf(stderr, "ERROR::SHADER::%s::COMPILATION_FAILED\n%s\n", type, info_log);
         }
     }
 }
 
-ShaderProgram createShaderProgram(const char* vertexShaderSource, const char* fragmentShaderSource) {
+shader_program_t shader_create_program(const char* vertex_shader_source, const char* fragment_shader_source) {
     // Create vertex shader
-    unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-    glCompileShader(vertexShader);
-    checkShaderErrors(vertexShader, "VERTEX");
+    unsigned int vertex_shader = glCreateShader(GL_VERTEX_SHADER);
+    glShaderSource(vertex_shader, 1, &vertex_shader_source, NULL);
+    glCompileShader(vertex_shader);
+    check_shader_errors(vertex_shader, "VERTEX");
     
     // Create fragment shader
-    unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-    glCompileShader(fragmentShader);
-    checkShaderErrors(fragmentShader, "FRAGMENT");
+    unsigned int fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(fragment_shader, 1, &fragment_shader_source, NULL);
+    glCompileShader(fragment_shader);
+    check_shader_errors(fragment_shader, "FRAGMENT");
     
     // Create shader program
-    ShaderProgram program = glCreateProgram();
-    glAttachShader(program, vertexShader);
-    glAttachShader(program, fragmentShader);
+    shader_program_t program = glCreateProgram();
+    glAttachShader(program, vertex_shader);
+    glAttachShader(program, fragment_shader);
     glLinkProgram(program);
-    checkShaderErrors(program, "PROGRAM");
+    check_shader_errors(program, "PROGRAM");
     
     // Delete shaders as they're linked into the program now
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);
+    glDeleteShader(vertex_shader);
+    glDeleteShader(fragment_shader);
     
     return program;
 }
 
-void useShaderProgram(ShaderProgram program) {
+void shader_use_program(shader_program_t program) {
     glUseProgram(program);
 }
 
-void setShaderFloat(ShaderProgram program, const char* name, float value) {
+void shader_set_float(shader_program_t program, const char* name, float value) {
     glUniform1f(glGetUniformLocation(program, name), value);
 }
 
-void setShaderMatrix4(ShaderProgram program, const char* name, const float* matrix) {
+void shader_set_mat4(shader_program_t program, const char* name, const float* matrix) {
     glUniformMatrix4fv(glGetUniformLocation(program, name), 1, GL_FALSE, matrix);
 }
 
-void deleteShaderProgram(ShaderProgram program) {
+void shader_delete_program(shader_program_t program) {
     glDeleteProgram(program);
 } 

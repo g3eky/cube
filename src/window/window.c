@@ -5,38 +5,38 @@
 
 // Define the actual window handle structure
 struct WindowHandle {
-    GLFWwindow* glfwWindow;
+    GLFWwindow* glfw_window;
 };
 
 // Error callback for GLFW
-static void errorCallback(int error, const char* description) {
+static void error_callback(int error, const char* description) {
     fprintf(stderr, "Window System Error %d: %s\n", error, description);
 }
 
 // Key callback for GLFW
-static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
         glfwSetWindowShouldClose(window, GLFW_TRUE);
     }
 }
 
 // Framebuffer size callback
-static void framebufferSizeCallback(GLFWwindow* window, int width, int height) {
+static void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
     glViewport(0, 0, width, height);
 }
 
-WindowConfig_Window defaultWindowConfig_Window() {
-    WindowConfig_Window config;
+window_config_t window_config_default(void) {
+    window_config_t config;
     config.width = 800;
     config.height = 600;
     config.title = "Cube";
     config.fullscreen = false;
-    config.glMajorVersion = 3;
-    config.glMinorVersion = 3;
+    config.gl_major_version = 3;
+    config.gl_minor_version = 3;
     return config;
 }
 
-WindowHandle initializeWindow(WindowConfig_Window config) {
+window_handle_t window_init(window_config_t config) {
     // Initialize GLFW
     if (!glfwInit()) {
         fprintf(stderr, "Failed to initialize window system\n");
@@ -44,11 +44,11 @@ WindowHandle initializeWindow(WindowConfig_Window config) {
     }
     
     // Set error callback
-    glfwSetErrorCallback(errorCallback);
+    glfwSetErrorCallback(error_callback);
     
     // Set OpenGL version hints
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, config.glMajorVersion);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, config.glMinorVersion);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, config.gl_major_version);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, config.gl_minor_version);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     
     #ifdef __APPLE__
@@ -56,26 +56,26 @@ WindowHandle initializeWindow(WindowConfig_Window config) {
     #endif
     
     // Create a window
-    GLFWwindow* glfwWindow;
+    GLFWwindow* glfw_window;
     if (config.fullscreen) {
         GLFWmonitor* monitor = glfwGetPrimaryMonitor();
         const GLFWvidmode* mode = glfwGetVideoMode(monitor);
-        glfwWindow = glfwCreateWindow(mode->width, mode->height, config.title, monitor, NULL);
+        glfw_window = glfwCreateWindow(mode->width, mode->height, config.title, monitor, NULL);
     } else {
-        glfwWindow = glfwCreateWindow(config.width, config.height, config.title, NULL, NULL);
+        glfw_window = glfwCreateWindow(config.width, config.height, config.title, NULL, NULL);
     }
     
-    if (!glfwWindow) {
+    if (!glfw_window) {
         fprintf(stderr, "Failed to create window\n");
         glfwTerminate();
         return NULL;
     }
     
     // Make the window's context current
-    glfwMakeContextCurrent(glfwWindow);
+    glfwMakeContextCurrent(glfw_window);
     
     // Set framebuffer size callback
-    glfwSetFramebufferSizeCallback(glfwWindow, framebufferSizeCallback);
+    glfwSetFramebufferSizeCallback(glfw_window, framebuffer_size_callback);
     
     // Enable vsync
     glfwSwapInterval(1);
@@ -84,62 +84,62 @@ WindowHandle initializeWindow(WindowConfig_Window config) {
     glViewport(0, 0, config.width, config.height);
     
     // Create and return our window handle
-    WindowHandle handle = (WindowHandle)malloc(sizeof(struct WindowHandle));
+    window_handle_t handle = (window_handle_t)malloc(sizeof(struct WindowHandle));
     if (!handle) {
         fprintf(stderr, "Failed to allocate window handle\n");
-        glfwDestroyWindow(glfwWindow);
+        glfwDestroyWindow(glfw_window);
         glfwTerminate();
         return NULL;
     }
     
-    handle->glfwWindow = glfwWindow;
+    handle->glfw_window = glfw_window;
     return handle;
 }
 
-void setupWindowCallbacks(WindowHandle window) {
+void window_setup_callbacks(window_handle_t window) {
     if (!window) return;
     
     // Set key callback
-    glfwSetKeyCallback(window->glfwWindow, keyCallback);
+    glfwSetKeyCallback(window->glfw_window, key_callback);
 }
 
-void terminateWindow(WindowHandle window) {
+void window_terminate(window_handle_t window) {
     if (!window) return;
     
-    glfwDestroyWindow(window->glfwWindow);
+    glfwDestroyWindow(window->glfw_window);
     glfwTerminate();
     
     // Free our handle
     free(window);
 }
 
-bool windowShouldClose(WindowHandle window) {
+bool window_should_close(window_handle_t window) {
     if (!window) return true;
     
-    return glfwWindowShouldClose(window->glfwWindow);
+    return glfwWindowShouldClose(window->glfw_window);
 }
 
-void pollWindowEvents() {
+void window_poll_events(void) {
     glfwPollEvents();
 }
 
-void swapWindowBuffers(WindowHandle window) {
+void window_swap_buffers(window_handle_t window) {
     if (!window) return;
     
-    glfwSwapBuffers(window->glfwWindow);
+    glfwSwapBuffers(window->glfw_window);
 }
 
-void printOpenGLInfo() {
+void window_print_gl_info(void) {
     printf("OpenGL Version: %s\n", glGetString(GL_VERSION));
     printf("OpenGL Vendor: %s\n", glGetString(GL_VENDOR));
     printf("OpenGL Renderer: %s\n", glGetString(GL_RENDERER));
     printf("Window System Version: %s\n", glfwGetVersionString());
 }
 
-void setClearColor(float r, float g, float b, float a) {
+void window_set_clear_color(float r, float g, float b, float a) {
     glClearColor(r, g, b, a);
 }
 
-void clearWindow() {
+void window_clear(void) {
     glClear(GL_COLOR_BUFFER_BIT);
 } 

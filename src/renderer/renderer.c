@@ -15,25 +15,25 @@
 #endif
 
 // Global renderer configuration
-static RendererConfig currentConfig;
+static renderer_config_t current_config;
 
 // Window handle
-static WindowHandle window = NULL;
+static window_handle_t window = NULL;
 
 // Shader program
-static ShaderProgram shaderProgram;
+static shader_program_t shader_program;
 
 // Vertex Array Object and Vertex Buffer Object
 static unsigned int VAO, VBO, EBO;
 
 // Rotation angle
-static float rotationAngle = 0.0f;
+static float rotation_angle = 0.0f;
 
 // Time tracking
-static double lastFrameTime = 0.0;
+static double last_frame_time = 0.0;
 
 // Vertex shader source
-static const char* vertexShaderSource = 
+static const char* vertex_shader_source = 
     "#version 330 core\n"
     "layout (location = 0) in vec3 aPos;\n"
     "layout (location = 1) in vec3 aColor;\n"
@@ -48,7 +48,7 @@ static const char* vertexShaderSource =
     "}\0";
 
 // Fragment shader source
-static const char* fragmentShaderSource = 
+static const char* fragment_shader_source = 
     "#version 330 core\n"
     "in vec3 vertexColor;\n"
     "out vec4 FragColor;\n"
@@ -80,68 +80,68 @@ static unsigned int indices[] = {
     4, 5, 1, 1, 0, 4  // Bottom face
 };
 
-RendererConfig defaultRendererConfig() {
-    RendererConfig config;
-    config.clearColorR = 0.2f;
-    config.clearColorG = 0.3f;
-    config.clearColorB = 0.3f;
-    config.clearColorA = 1.0f;
-    config.rotationSpeed = 1.0f; // 1 radian per second
+renderer_config_t renderer_config_default(void) {
+    renderer_config_t config;
+    config.clear_color_r = 0.2f;
+    config.clear_color_g = 0.3f;
+    config.clear_color_b = 0.3f;
+    config.clear_color_a = 1.0f;
+    config.rotation_speed = 1.0f; // 1 radian per second
     return config;
 }
 
-WindowConfig defaultWindowConfig() {
-    WindowConfig config;
+renderer_window_config_t renderer_window_config_default(void) {
+    renderer_window_config_t config;
     config.width = 800;
     config.height = 600;
     config.title = "Cube";
     config.fullscreen = false;
-    config.glMajorVersion = 3;
-    config.glMinorVersion = 3;
+    config.gl_major_version = 3;
+    config.gl_minor_version = 3;
     return config;
 }
 
-bool initializeRendererWithWindow(RendererConfig rendererConfig, WindowConfig windowConfig) {
+bool renderer_init_with_window(renderer_config_t renderer_config, renderer_window_config_t window_config) {
     // Store the renderer configuration
-    currentConfig = rendererConfig;
+    current_config = renderer_config;
     
     // Convert our WindowConfig to the window module's format
-    struct WindowConfig_Window winConfig;
-    winConfig.width = windowConfig.width;
-    winConfig.height = windowConfig.height;
-    winConfig.title = windowConfig.title;
-    winConfig.fullscreen = windowConfig.fullscreen;
-    winConfig.glMajorVersion = windowConfig.glMajorVersion;
-    winConfig.glMinorVersion = windowConfig.glMinorVersion;
+    window_config_t win_config;
+    win_config.width = window_config.width;
+    win_config.height = window_config.height;
+    win_config.title = window_config.title;
+    win_config.fullscreen = window_config.fullscreen;
+    win_config.gl_major_version = window_config.gl_major_version;
+    win_config.gl_minor_version = window_config.gl_minor_version;
     
     // Initialize window
-    window = initializeWindow(winConfig);
+    window = window_init(win_config);
     if (!window) {
         return false;
     }
     
     // Set up window callbacks
-    setupWindowCallbacks(window);
+    window_setup_callbacks(window);
     
     // Print OpenGL information
-    printOpenGLInfo();
+    window_print_gl_info();
     
     // Create shader program
-    shaderProgram = createShaderProgram(vertexShaderSource, fragmentShaderSource);
+    shader_program = shader_create_program(vertex_shader_source, fragment_shader_source);
     
     // Initialize time tracking
-    lastFrameTime = (double)clock() / CLOCKS_PER_SEC;
+    last_frame_time = (double)clock() / CLOCKS_PER_SEC;
     
     // Enable depth testing
     glEnable(GL_DEPTH_TEST);
     
     // Create the cube geometry
-    createCube();
+    renderer_create_cube();
     
     return true;
 }
 
-void createCube() {
+void renderer_create_cube(void) {
     // Generate and bind Vertex Array Object
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
@@ -169,47 +169,47 @@ void createCube() {
     glBindVertexArray(0);
 }
 
-void renderFrame() {
+void renderer_render_frame(void) {
     // Calculate delta time
-    double currentTime = (double)clock() / CLOCKS_PER_SEC;
-    double deltaTime = currentTime - lastFrameTime;
-    lastFrameTime = currentTime;
+    double current_time = (double)clock() / CLOCKS_PER_SEC;
+    double delta_time = current_time - last_frame_time;
+    last_frame_time = current_time;
     
     // Update rotation angle
-    rotationAngle += currentConfig.rotationSpeed * deltaTime;
+    rotation_angle += current_config.rotation_speed * delta_time;
     
     // Clear the screen
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     // Set the clear color (background)
     glClearColor(
-        currentConfig.clearColorR,
-        currentConfig.clearColorG,
-        currentConfig.clearColorB,
-        currentConfig.clearColorA
+        current_config.clear_color_r,
+        current_config.clear_color_g,
+        current_config.clear_color_b,
+        current_config.clear_color_a
     );
     
     // Use shader program
-    useShaderProgram(shaderProgram);
+    shader_use_program(shader_program);
     
     // Create transformation matrices
-    float model[16], view[16], projection[16], rotationY[16], rotationX[16], temp[16];
+    float model[16], view[16], projection[16], rotation_y[16], rotation_x[16], temp[16];
     
     // Model matrix - rotate the cube
-    mat4RotateY(rotationY, rotationAngle);
-    mat4RotateX(rotationX, rotationAngle * 0.5f);
-    mat4Multiply(model, rotationY, rotationX);
+    math_mat4_rotate_y(rotation_y, rotation_angle);
+    math_mat4_rotate_x(rotation_x, rotation_angle * 0.5f);
+    math_mat4_multiply(model, rotation_y, rotation_x);
     
     // View matrix - move the camera back a bit
-    mat4Translate(view, 0.0f, 0.0f, -3.0f);
+    math_mat4_translate(view, 0.0f, 0.0f, -3.0f);
     
     // Projection matrix
-    mat4Perspective(projection, 45.0f * (3.14159f / 180.0f), 800.0f / 600.0f, 0.1f, 100.0f);
+    math_mat4_perspective(projection, 45.0f * (3.14159f / 180.0f), 800.0f / 600.0f, 0.1f, 100.0f);
     
     // Set uniforms
-    setShaderMatrix4(shaderProgram, "model", model);
-    setShaderMatrix4(shaderProgram, "view", view);
-    setShaderMatrix4(shaderProgram, "projection", projection);
+    shader_set_mat4(shader_program, "model", model);
+    shader_set_mat4(shader_program, "view", view);
+    shader_set_mat4(shader_program, "projection", projection);
     
     // Draw the cube
     glBindVertexArray(VAO);
@@ -217,35 +217,35 @@ void renderFrame() {
     glBindVertexArray(0);
 }
 
-void runMainLoop() {
+void renderer_run_main_loop(void) {
     if (!window) {
         fprintf(stderr, "Cannot run main loop: window not initialized\n");
         return;
     }
     
     // Main loop
-    while (!windowShouldClose(window)) {
+    while (!window_should_close(window)) {
         // Render a frame
-        renderFrame();
+        renderer_render_frame();
         
         // Swap front and back buffers
-        swapWindowBuffers(window);
+        window_swap_buffers(window);
         
         // Poll for and process events
-        pollWindowEvents();
+        window_poll_events();
     }
 }
 
-void terminateRendererAndWindow() {
+void renderer_terminate(void) {
     // Clean up renderer resources
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
     glDeleteBuffers(1, &EBO);
-    deleteShaderProgram(shaderProgram);
+    shader_delete_program(shader_program);
     
     // Clean up window
     if (window) {
-        terminateWindow(window);
+        window_terminate(window);
         window = NULL;
     }
 } 
