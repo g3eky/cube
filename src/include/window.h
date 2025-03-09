@@ -3,8 +3,9 @@
 
 #include <stdbool.h>
 
-// Forward declaration of GLFWwindow to avoid including GLFW in header
-typedef struct GLFWwindow GLFWwindow;
+// Forward declaration of the window handle type
+// This hides the implementation detail that we're using GLFW
+typedef struct WindowHandle* WindowHandle;
 
 // Window configuration structure
 typedef struct {
@@ -19,23 +20,23 @@ typedef struct {
 // Default window configuration
 WindowConfig defaultWindowConfig();
 
-// Initialize GLFW and create a window
-GLFWwindow* initializeWindow(WindowConfig config);
+// Initialize and create a window
+WindowHandle initializeWindow(WindowConfig config);
 
 // Set up callbacks for the window
-void setupWindowCallbacks(GLFWwindow* window);
+void setupWindowCallbacks(WindowHandle window);
 
-// Clean up and terminate GLFW
-void terminateWindow(GLFWwindow* window);
+// Clean up and terminate window system
+void terminateWindow(WindowHandle window);
 
 // Check if the window should close
-bool windowShouldClose(GLFWwindow* window);
+bool windowShouldClose(WindowHandle window);
 
 // Process window events
 void pollWindowEvents();
 
 // Swap the window buffers
-void swapWindowBuffers(GLFWwindow* window);
+void swapWindowBuffers(WindowHandle window);
 
 // Print OpenGL information
 void printOpenGLInfo();

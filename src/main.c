@@ -9,7 +9,7 @@ int main() {
     WindowConfig config = defaultWindowConfig();
     
     // Initialize window
-    GLFWwindow* window = initializeWindow(config);
+    WindowHandle window = initializeWindow(config);
     if (!window) {
         return EXIT_FAILURE;
     }
