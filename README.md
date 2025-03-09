@@ -1,6 +1,6 @@
-# Hello World C Program with CMake
+# Cube C Program with CMake
 
-A simple C program that prints "Hello, World!" to the console, built using CMake.
+A simple C program built using CMake.
 
 ## Project Structure
 
@@ -41,12 +41,12 @@ A simple C program that prints "Hello, World!" to the console, built using CMake
 After building, you can run the program from the build directory:
 
 ```
-./hello_world
+./cube
 ```
 
 You should see the output:
 ```
-Hello, World!
+Hello from Cube!
 ```
 
 ## Version Control

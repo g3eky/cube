@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 # Set the project name
-project(HelloWorld)
+project(Cube)
 
 # Add the executable
-add_executable(hello_world src/main.c) 
+add_executable(cube src/main.c) 
