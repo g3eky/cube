@@ -196,15 +196,15 @@ void renderer_render_frame(void) {
     float model[16], view[16], projection[16], rotation_y[16], rotation_x[16], temp[16];
     
     // Model matrix - rotate the cube
-    math_mat4_rotate_y(rotation_y, rotation_angle);
-    math_mat4_rotate_x(rotation_x, rotation_angle * 0.5f);
-    math_mat4_multiply(model, rotation_y, rotation_x);
+    matrix_rotate_y(rotation_y, rotation_angle);
+    matrix_rotate_x(rotation_x, rotation_angle * 0.5f);
+    matrix_multiply(model, rotation_y, rotation_x);
     
-    // View matrix - move the camera back a bit
-    math_mat4_translate(view, 0.0f, 0.0f, -3.0f);
+    // View matrix - move the camera back
+    matrix_translate(view, 0.0f, 0.0f, -3.0f);
     
-    // Projection matrix
-    math_mat4_perspective(projection, 45.0f * (3.14159f / 180.0f), 800.0f / 600.0f, 0.1f, 100.0f);
+    // Projection matrix - perspective projection
+    matrix_perspective(projection, 45.0f * (3.14159f / 180.0f), 800.0f / 600.0f, 0.1f, 100.0f);
     
     // Set uniforms
     shader_set_mat4(shader_program, "model", model);
@@ -215,6 +215,12 @@ void renderer_render_frame(void) {
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
+    
+    // Swap buffers
+    window_swap_buffers(window);
+    
+    // Poll for events
+    window_poll_events();
 }
 
 void renderer_run_main_loop(void) {

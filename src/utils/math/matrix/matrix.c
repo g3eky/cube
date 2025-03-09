@@ -1,8 +1,8 @@
-#include "math.h"
+#include "matrix.h"
 #include <math.h>
 #include <string.h>
 
-void math_mat4_identity(float* matrix) {
+void matrix_identity(float* matrix) {
     // Initialize to zero
     memset(matrix, 0, 16 * sizeof(float));
     
@@ -13,7 +13,7 @@ void math_mat4_identity(float* matrix) {
     matrix[15] = 1.0f;
 }
 
-void math_mat4_perspective(float* matrix, float fov, float aspect, float near, float far) {
+void matrix_perspective(float* matrix, float fov, float aspect, float near, float far) {
     // Initialize to zero
     memset(matrix, 0, 16 * sizeof(float));
     
@@ -27,9 +27,9 @@ void math_mat4_perspective(float* matrix, float fov, float aspect, float near, f
     matrix[14] = (2.0f * far * near) / (near - far);
 }
 
-void math_mat4_rotate_x(float* matrix, float angle) {
+void matrix_rotate_x(float* matrix, float angle) {
     // Initialize to identity
-    math_mat4_identity(matrix);
+    matrix_identity(matrix);
     
     float cos_angle = cosf(angle);
     float sin_angle = sinf(angle);
@@ -40,9 +40,9 @@ void math_mat4_rotate_x(float* matrix, float angle) {
     matrix[10] = cos_angle;
 }
 
-void math_mat4_rotate_y(float* matrix, float angle) {
+void matrix_rotate_y(float* matrix, float angle) {
     // Initialize to identity
-    math_mat4_identity(matrix);
+    matrix_identity(matrix);
     
     float cos_angle = cosf(angle);
     float sin_angle = sinf(angle);
@@ -53,9 +53,9 @@ void math_mat4_rotate_y(float* matrix, float angle) {
     matrix[10] = cos_angle;
 }
 
-void math_mat4_rotate_z(float* matrix, float angle) {
+void matrix_rotate_z(float* matrix, float angle) {
     // Initialize to identity
-    math_mat4_identity(matrix);
+    matrix_identity(matrix);
     
     float cos_angle = cosf(angle);
     float sin_angle = sinf(angle);
@@ -66,16 +66,16 @@ void math_mat4_rotate_z(float* matrix, float angle) {
     matrix[5] = cos_angle;
 }
 
-void math_mat4_translate(float* matrix, float x, float y, float z) {
+void matrix_translate(float* matrix, float x, float y, float z) {
     // Initialize to identity
-    math_mat4_identity(matrix);
+    matrix_identity(matrix);
     
     matrix[12] = x;
     matrix[13] = y;
     matrix[14] = z;
 }
 
-void math_mat4_multiply(float* result, float* a, float* b) {
+void matrix_multiply(float* result, float* a, float* b) {
     float temp[16];
     
     for (int i = 0; i < 4; i++) {
